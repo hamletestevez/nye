@@ -1,0 +1,20 @@
+<ion-view title="Login" hide-nav-bar="true" hide-back-button="true" cache-view="false" nav-transition="none" id="page5">
+  <ion-content padding="true" class="manual-ios-statusbar-padding">
+    <form id="login-form1" class="list">
+      <div class="spacer" style="height: 50px;"></div>
+      <ion-list id="login-list2">
+        <label class="item item-input item-floating-label" id="login-input1" name="Email">
+          <span class="input-label">Email</span>
+          <input type="email" placeholder="Email">
+        </label>
+        <label class="item item-input item-floating-label" id="login-input2" name="Password">
+          <span class="input-label">Password</span>
+          <input type="password" placeholder="Password">
+        </label>
+      </ion-list>
+      <div class="spacer" style="height: 50px;"></div>
+      <a ui-sref="menu.dashboard()" id="login-button1" class="button button-positive button-block button-outline">Log in</a>
+      <a ui-sref="signup_personal()" id="login-button2" class="button button-balanced button-block button-clear">Or create an account</a>
+    </form>
+  </ion-content>
+</ion-view>
