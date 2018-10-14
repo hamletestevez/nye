@@ -1,27 +1,38 @@
-<ion-view title="Signup_empoyee" hide-nav-bar="true" hide-back-button="true" cache-view="false" nav-transition="none" id="page7">
+<ion-view title="Signup_empoyee" hide-nav-bar="true" hide-back-button="true" cache-view="false" nav-transition="none"
+  id="page7">
   <ion-content padding="true" class="manual-ios-statusbar-padding">
-    <h3 id="signup_empoyee-heading1" style="color:#444444;text-align:center;">Employee Info</h3>
-    <form id="signup_empoyee-form3" class="list">
-      <div class="spacer" style="height: 50px;"></div>
-      <ion-list id="signup_empoyee-list4">
-        <label class="item item-input item-floating-label" id="signup_empoyee-input7" name="Bank Account">
+
+    <h3 class="authHeader">Employee Info</h3>
+
+    <form class="list" ng-submit="signEmployeeData">
+      <div class="spacer_sm"></div>
+      <ion-list>
+        <label class="item item-input item-floating-label" name="Bank Account">
           <span class="input-label">Bank Account</span>
-          <input type="number" placeholder="Bank Account">
+          <input type="number" placeholder="Bank Account" ng-model="signEmployeeData.account">
         </label>
-        <label class="item item-input item-floating-label" id="signup_empoyee-input8" name="Email">
+        <label class="item item-input item-floating-label" name="Email">
           <span class="input-label">Email</span>
-          <input type="email" placeholder="Email">
+          <input type="email" placeholder="Email" ng-model="signEmployeeData.email">
         </label>
-        <label class="item item-input item-floating-label" id="signup_empoyee-input9" name="Password">
+        <label class="item item-input item-floating-label" name="Password">
           <span class="input-label">Password</span>
-          <input type="password" placeholder="Password">
+          <input type="password" placeholder="Password" ng-model="signEmployeeData.password">
         </label>
-        <label class="item item-input item-floating-label" id="signup_empoyee-input14" name="Confirm Password">
+        <label class="item item-input item-floating-label" name="Confirm Password">
           <span class="input-label">Confirm Password</span>
-          <input type="password" placeholder="Confirm Password">
+          <input type="password" placeholder="Confirm Password" ng-model="signEmployeeData.conPassword">
         </label>
       </ion-list>
-      <a ui-sref="login()" id="signup_empoyee-button4" class="button button-balanced button-block button-outline">Sign In</a>
+      <div class="spacer_sm"></div>
+
+      <div class="btn_groupTwo">
+
+        <a ui-sref="signup_personal()" class="button button-stable button-outline">Back</a>
+
+        <a class="button button-balanced button-outline" ng-click="createAccountCTA(signEmployeeData)">Sign In</a>
+      </div>
+
     </form>
   </ion-content>
 </ion-view>

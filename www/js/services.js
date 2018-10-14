@@ -1,9 +1,8 @@
 angular.module('app.services', [])
 
-.factory('BlankFactory', [function(){
+.factory('personalList', function($firebaseArray){
+    var ref = firebase.database().ref('personal/');
 
-}])
+    return $firebaseArray(ref)
+})
 
-.service('BlankService', [function(){
-
-}]);

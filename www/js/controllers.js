@@ -1,66 +1,77 @@
 angular.module('app.controllers', [])
-  
-.controller('dashboardCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
 
 
-}])
-   
-.controller('demosCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+  .controller('menuCtrl', function ($scope, $stateParams) {
+
+    // END of menuCtrl
+  })
+
+  .controller('loginCtrl', function ($scope, $stateParams) {
+
+    // END of loginCtrl
+  })
+
+  .controller('signupCtrl', function ($scope, $stateParams, $state, $ionicLoading) {
 
 
-}])
-   
-.controller('statsCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+    $scope.signContinueCTA = function (personal) {
+      $ionicLoading.show({
+        template: '<ion-spinner icon="spiral"></ion-spinner>'
+      })
+
+      cloud.savePersonal(personal).then(() => {
+        $ionicLoading.hide();
+        $state.go('signup_empoyee');
+      }, (error) => {
+        console.log(error);
+        $ionicLoading.hide();
+        $ionicLoading.show({
+          template: error,
+          duration: 3000
+        })
+      })
+
+    }
+
+    $scope.createAccountCTA = function (employee) {
+      $ionicLoading.show({
+        template: '<ion-spinner icon="spiral"></ion-spinner>'
+      })
+      cloud.saveEmployee(employee).then((result) => {
+        console.log(result);
+        $ionicLoading.hide();
+        $state.go('menu.dashboard');
+      }, (error) => {
+        $ionicLoading.hide();
+        $ionicLoading.show({
+          template: error,
+          duration: 3000
+        })
+      })
 
 
-}])
-   
-.controller('menuCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+    }
 
+    // END of signupCtrl
+  })
 
-}])
-   
-.controller('adminCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+  .controller('dashboardCtrl', function ($scope, $stateParams) {
 
+    // END of dashboardCtrl
+  })
 
-}])
-   
-.controller('loginCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+  .controller('demosCtrl', function ($scope, $stateParams) {
 
+    // END of demosCtrl
+  })
 
-}])
-   
-.controller('signup_personalCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+  .controller('statsCtrl', function ($scope, $stateParams) {
 
+    // END of statsCtrl
+  })
 
-}])
-   
-.controller('signup_empoyeeCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+  .controller('adminCtrl', function ($scope, $stateParams, personalList) {
 
-
-}])
- 
+    $scope.personalList = personalList;
+    // END of adminCtrl
+  })

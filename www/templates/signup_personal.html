@@ -1,23 +1,29 @@
-<ion-view title="Signup_personal" hide-nav-bar="true" hide-back-button="true" cache-view="false" nav-transition="none" id="page6">
+<ion-view title="Signup_personal" hide-nav-bar="true" hide-back-button="true" cache-view="false" nav-transition="none"
+  id="page6">
   <ion-content padding="true" class="manual-ios-statusbar-padding">
-    <h3 id="signup_personal-heading2" style="color:#444444;text-align:center;">Personal Info</h3>
-    <form id="signup_personal-form2" class="list">
-      <div class="spacer" style="height: 50px;"></div>
-      <ion-list id="signup_personal-list3">
-        <label class="item item-input item-floating-label" id="signup_personal-input3" name="Name">
+
+    <h3 class="authHeader">Personal Info</h3>
+
+    <form class="list" ng-submit="signPersonalData">
+      <div class="spacer_sm"></div>
+      <ion-list>
+        <label class="item item-input item-floating-label" name="Name">
           <span class="input-label">Name</span>
-          <input type="text" placeholder="Name">
+          <input type="text" placeholder="Name" ng-model="signPersonalData.name">
         </label>
-        <label class="item item-input item-floating-label" id="signup_personal-input5" name="Address">
+        <label class="item item-input item-floating-label" name="Address">
           <span class="input-label">Address</span>
-          <input type="text" placeholder="Address">
+          <input type="text" placeholder="Address" ng-model="signPersonalData.address">
         </label>
-        <label class="item item-input item-floating-label" id="signup_personal-input6" name="Phone #">
+        <label class="item item-input item-floating-label" name="Phone #">
           <span class="input-label">Phone #</span>
-          <input type="tel" placeholder="Phone #">
+          <input type="tel" placeholder="Phone #" ng-model="signPersonalData.phone">
         </label>
       </ion-list>
-      <a ui-sref="signup_empoyee()" id="signup_personal-button3" class="button button-balanced button-block button-outline">Continue</a>
+      <div class="spacer_sm"></div>
+
+
+      <a ng-click="signContinueCTA(signPersonalData)" class="button button-balanced button-block button-outline">Continue</a>
     </form>
   </ion-content>
 </ion-view>

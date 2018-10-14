@@ -1,3 +1,15 @@
 <ion-view title="Admin" id="page4">
-  <ion-content padding="true" class="has-header"></ion-content>
+  <ion-content padding="true" class="has-header">
+
+
+
+    <div class="card">
+      <div class="item item-divider">
+        Employee List
+      </div>
+      <ion-item ng-repeat="item in personalList">
+        {{item.name}}
+      </ion-item>
+    </div>
+  </ion-content>
 </ion-view>

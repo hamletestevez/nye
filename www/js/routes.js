@@ -64,13 +64,13 @@ angular.module('app.routes', [])
   .state('signup_personal', {
     url: '/page6',
     templateUrl: 'templates/signup_personal.html',
-    controller: 'signup_personalCtrl'
+    controller: 'signupCtrl'
   })
 
   .state('signup_empoyee', {
     url: '/page7',
     templateUrl: 'templates/signup_empoyee.html',
-    controller: 'signup_empoyeeCtrl'
+    controller: 'signupCtrl'
   })
 
 $urlRouterProvider.otherwise('/page5')
