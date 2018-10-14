@@ -11,6 +11,33 @@ var cloud = {
     })
   },
 
+  getAdminPassword: () => {
+    return new Promise((resolve, reject) => {
+      firebase.database().ref('/adminPassword/').once('value').then(function (snapshot) {
+        resolve(snapshot.val())
+      })
+
+    })
+  },
+
+  setUserStatus: (user, status) => {
+    var updates = {};
+    updates['personal/' + user.uid + '/active/'] = status;
+    firebase.database().ref().update(updates);
+
+  },
+
+  getCloudUser: (user) => {
+    return new Promise((resolve, reject) => {
+      firebase.database().ref('personal/' + user.uid).once('value').then(function (snapshot) {
+        resolve(snapshot.val())
+      })
+
+    }, (error) => {
+      reject(error)
+    })
+  },
+
   temp: {
     tempSave: (data) => {
       return new Promise((resolve, reject) => {
@@ -26,6 +53,22 @@ var cloud = {
       })
     }
   },
+  save: {
+    saveSeccion: (data) => {
+      return new Promise((resolve, reject) => {
+        sessionStorage.setItem('NYE_save', JSON.stringify(data))
+        resolve()
+
+      })
+    },
+    getSeccion: () => {
+      return new Promise((resolve, reject) => {
+        resolve(JSON.parse(sessionStorage.getItem('NYE_save')));
+
+      })
+    }
+  },
+
 
   savePersonal: (data) => {
     return new Promise((resolve, reject) => {
@@ -83,11 +126,13 @@ var cloud = {
             var b = Object.assign(personal, {
               account: data.account,
               email: data.email,
-              password: data.password
+              password: data.password,
+              admin: data.admin,
+              active: true
             });
             cloud.temp.tempSave(b).then(() => {
               cloud.createAccount(b).then((user) => {
-                  b.uid = user.uid;
+                b.uid = user.uid;
                 cloud.insert('personal/' + user.uid + '/', b).then(() => {
                   resolve(user)
                 })
@@ -102,9 +147,6 @@ var cloud = {
       emp.init()
 
     })
-
-
-
   },
 
   createAccount: (data) => {
@@ -112,8 +154,13 @@ var cloud = {
     return new Promise((resolve, reject) => {
       firebase.auth().createUserWithEmailAndPassword(data.email, data.password).then(function () {
         var user = firebase.auth().currentUser;
+        user.updateProfile({
+          displayName: data.name
+        })
+        data.uid = user.uid;
         resolve(user);
-        sessionStorage.clear();
+        sessionStorage.removeItem('NYE_temp');
+        cloud.save.saveSeccion(data)
 
       }, function (error) {
 
@@ -123,7 +170,40 @@ var cloud = {
 
     })
 
+  },
+  loginAccount: (user) => {
+    return new Promise((resolve, reject) => {
+      firebase.auth().signInWithEmailAndPassword(user.email, user.password).then(() => {
+        var user = firebase.auth().currentUser;
+        cloud.setUserStatus(user, true);
+        cloud.getCloudUser(user).then((result) => {
+          cloud.save.saveSeccion(result).then(() => {
+            console.log('done');
+          })
+        }, (error) => {
+          console.log(error);
+        })
+        resolve(user);
+      }, (error) => {
+        reject(error)
+      })
+    })
+  },
+
+  logoutAccount: () => {
+    return new Promise((resolve, reject) => {
+      firebase.auth().signOut().then(function () {
+
+        resolve()
+      }).catch(function (error) {
+        reject(error)
+      });
+
+
+    })
   }
+
+
 
 
 }

@@ -13,20 +13,20 @@
       <div class="title">Menu</div>
     </ion-header-bar>
     <ion-content padding="false" class="side-menu-left has-header ">
-      <ion-list id="menu-list1">
-        <ion-item class="item-icon-right" id="menu-list-item1" ui-sref="menu.dashboard()" menu-close="">Dashboard
+      <ion-list>
+        <ion-item class="item-icon-right" ui-sref="menu.dashboard()" menu-close="">Dashboard
           <i class="icon ion-ios-speedometer"></i>
         </ion-item>
-        <ion-item class="item-icon-right" id="menu-list-item2" ui-sref="menu.demos()" menu-close="">Demos
+        <ion-item class="item-icon-right" ui-sref="menu.demos()" menu-close="">Demos
           <i class="icon ion-clipboard"></i>
         </ion-item>
-        <ion-item class="item-icon-right" id="menu-list-item3" ui-sref="menu.stats()" menu-close="">Stats
+        <ion-item class="item-icon-right" ui-sref="menu.stats()" menu-close="">Stats
           <i class="icon ion-stats-bars"></i>
         </ion-item>
-        <ion-item class="item-icon-right" id="menu-list-item4" ui-sref="menu.admin()" menu-close="">Admin
+        <ion-item class="item-icon-right adminMenuButton" ui-sref="menu.admin()" menu-close="">Admin
           <i class="icon ion-android-unlock"></i>
         </ion-item>
-        <ion-item class="item-icon-right" id="menu-list-item5" ui-sref="login()" menu-close="">Log Out
+        <ion-item class="item-icon-right" ng-click="logoutCTA()" menu-close="">Log Out
           <i class="icon ion-log-out"></i>
         </ion-item>
       </ion-list>

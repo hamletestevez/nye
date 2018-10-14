@@ -49,10 +49,12 @@ ion-list.manual-list-fullwidth div.list>.item,
     height: 50px;
     @extend .spacerInclude;
   }
+
   &_sm {
     height: 25px;
     @extend .spacerInclude;
   }
+
   &_lg {
     height: 75px;
     @extend .spacerInclude;
@@ -63,8 +65,26 @@ ion-list.manual-list-fullwidth div.list>.item,
   &_groupTwo {
     justify-content: space-around;
     display: flex;
+
     a {
       min-width: 100px;
     }
+  }
+}
+
+.adminContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+}
+
+.adminMenuButton{
+    display: none;
+}
+
+.modalListHeader {
+  button::before {
+    font-size: 24px !important;
   }
 }

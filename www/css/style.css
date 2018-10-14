@@ -47,4 +47,15 @@ ion-list.manual-list-fullwidth div.list > .item,
   .btn_groupTwo a {
     min-width: 100px; }
 
+.adminContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around; }
+
+.adminMenuButton {
+  display: none; }
+
+.modalListHeader button::before {
+  font-size: 24px !important; }
+
 /*# sourceMappingURL=style.css.map */

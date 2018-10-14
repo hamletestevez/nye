@@ -1,0 +1,20 @@
+<ion-modal-view>
+  <ion-header-bar class="modalListHeader">
+    <h1 class="title">{{modalData.title}}</h1>
+    <button class="button button-icon icon ion-close" ng-click="adminListModal.hide()"></button>
+  </ion-header-bar>
+  <ion-content>
+    <div class="spacer_sm"></div>
+    <ion-list>
+
+      <a class="item item-icon-right" ng-repeat="item in modalData.data">
+
+        {{item.name}}
+        <i ng-if="item.active" class="icon ion-android-radio-button-on balanced"></i>
+        <i ng-if="!item.active" class="icon ion-android-radio-button-off assertive"></i>
+      </a>
+
+     
+    </ion-list>
+  </ion-content>
+</ion-modal-view>
