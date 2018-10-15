@@ -69,7 +69,6 @@ var cloud = {
     }
   },
 
-
   savePersonal: (data) => {
     return new Promise((resolve, reject) => {
       var per = {
@@ -201,9 +200,20 @@ var cloud = {
 
 
     })
+  },
+
+  data: {
+    defaultDemoOptions: [{
+      name: null,
+      place: 1
+    }, {
+      name: null,
+      place: 2
+    }, {
+      name: null,
+      place: 3
+    }]
   }
-
-
 
 
 }

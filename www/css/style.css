@@ -46,6 +46,11 @@ ion-list.manual-list-fullwidth div.list > .item,
   display: flex; }
   .btn_groupTwo a {
     min-width: 100px; }
+.btn_groupThree {
+  justify-content: space-around;
+  display: flex; }
+  .btn_groupThree a {
+    min-width: 80px; }
 
 .adminContainer {
   display: flex;
@@ -55,7 +60,45 @@ ion-list.manual-list-fullwidth div.list > .item,
 .adminMenuButton {
   display: none; }
 
+.modalListHeader h1 {
+  color: #444444;
+  letter-spacing: 0.75px; }
 .modalListHeader button::before {
   font-size: 24px !important; }
+
+.adminFormModal {
+  padding: 10px; }
+  .adminFormModal .card {
+    padding: 10px; }
+
+.modalAdminList a i {
+  font-size: 24px !important; }
+
+.formButtonblock {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around; }
+  .formButtonblock a {
+    margin: 5px 15px;
+    min-width: 115px; }
+
+.bar .title {
+  display: flex;
+  justify-content: space-around; }
+  .bar .title e {
+    font-weight: 300; }
+
+.demoOptionForms label {
+  background: none; }
+.demoOptionForms a {
+  background-color: transparent; }
+
+.demoQuestionsCard .questionsCardOptions {
+  margin: 5px 0px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap; }
+  .demoQuestionsCard .questionsCardOptions .questionOption {
+    margin: 5px 15px; }
 
 /*# sourceMappingURL=style.css.map */

@@ -24,25 +24,27 @@ angular.module('app.controllers', [])
             cloud.logoutAccount().then(() => {
               $ionicLoading.hide();
               $state.go('login');
-              $timeout(()=>{
-              location.reload();
-              },1250)
+              sessionStorage.removeItem('NYE_save');
+              $timeout(() => {
+                location.reload();
+              }, 1250)
             }, (error) => {
               console.log(error);
             })
           }
         }]
       })
-
-
     }
-    console.log('menu');
 
     cloud.save.getSeccion().then((result) => {
       console.log(result);
-
+      $timeout(() => {
+        $scope.currentUser = result;
+      }, 250)
       if (result.admin) {
-        $('.adminMenuButton').css({'display': 'block'});
+        $('.adminMenuButton').css({
+          'display': 'block'
+        });
       }
     })
     // END of menuCtrl
@@ -169,7 +171,12 @@ angular.module('app.controllers', [])
     // END of statsCtrl
   })
 
-  .controller('adminCtrl', function ($scope, $stateParams, personalList, $ionicModal) {
+  .controller('adminCtrl', function ($scope, $stateParams, personalList, $ionicModal, keyBuild, $timeout, $ionicLoading) {
+
+
+    $scope.keyBuild = keyBuild;
+
+    $scope.newDemoOptions = false;
 
     $ionicModal.fromTemplateUrl('../templates/modals/adminListModal.html', {
       scope: $scope,
@@ -178,10 +185,18 @@ angular.module('app.controllers', [])
       $scope.adminListModal = modal;
     });
 
+    $ionicModal.fromTemplateUrl('../templates/modals/adminFormModal.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.adminFormModal = modal;
+    });
+
 
     // Cleanup the modal when we're done with it!
     $scope.$on('$destroy', function () {
       $scope.adminListModal.remove();
+      $scope.adminFormModal.remove();
     });
 
     $scope.viewEmployeeListCTA = () => {
@@ -194,5 +209,93 @@ angular.module('app.controllers', [])
       }
 
     }
+
+    $scope.createNewDemoCTA = () => {
+      $scope.adminFormModal.show();
+
+      $scope.modalData = {
+        data: null,
+        title: 'New Demo',
+        type: 'demo'
+      }
+    }
+
+    $scope.createDemoOptionCTA = () => {
+      $scope.newDemoOptions = cloud.data.defaultDemoOptions;
+    }
+    $scope.cancelDemoOptionCTA = () => {
+      $scope.newDemoOptions = false;
+    };
+
+    $scope.demoOptionAddOptionCTA = () => {
+      $scope.newDemoOptions.push({
+        name: null,
+        place: $scope.newDemoOptions.length + 1
+      })
+    }
+
+    $scope.removeFromDemoOptionsCTA = ($index) => {
+
+      $scope.newDemoOptions.splice($index, 1);
+    }
+
+    $scope.nextDemoOptionsCTA = (demoData) => {
+      $ionicLoading.show({
+        template: '<ion-spinner icon="spiral"></ion-spinner>'
+      })
+
+      var q = [];
+      var o = [];
+
+      for (var i = 0; $scope.newDemoOptions.length > i; i++) {
+
+        o.push($scope.newDemoOptions[i].name)
+      };
+
+      q.push({
+        name: demoData.question,
+        type: 'options',
+        options: o
+      })
+
+      var a = {
+        item: 'demo',
+        name: demoData.name,
+        id: $scope.keyBuild(),
+        questions: q
+      };
+
+      cloud.temp.tempGet().then((result) => {
+        if (result) {
+          result.questions.push({
+            name: demoData.question,
+            type: 'options',
+            options: o
+          });
+          cloud.temp.tempSave(result).then(() => {
+            $timeout(() => {
+              console.log(result);
+              $scope.newDemo = result;
+              $scope.newDemoOptions = false;
+              demoData.question = null;
+              $ionicLoading.hide();
+            }, 1500)
+          })
+        } else {
+          cloud.temp.tempSave(a).then(() => {
+            $timeout(() => {
+              $scope.newDemo = a;
+              $scope.newDemoOptions = false;
+              demoData.question = null;
+              $ionicLoading.hide();
+            }, 1500)
+          })
+        }
+      })
+
+
+    }
+
+
     // END of adminCtrl
   })
