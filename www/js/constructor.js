@@ -1,3 +1,13 @@
+
+$(window).blur(function(){
+  //your code here
+  console.log('blur');
+});
+$(window).focus(function(){
+  //your code
+  console.log('focus');
+});
+
 var cloud = {
 
   insert: (path, data) => {
@@ -6,8 +16,14 @@ var cloud = {
       console.log(data);
       var updates = {};
       updates[path] = data;
-      firebase.database().ref().update(updates);
-      resolve()
+      firebase.database().ref().update(updates, function (error) {
+        if (error) {
+          reject(error)
+        } else {
+          resolve("Data saved successfully.")
+        }
+      });
+
     })
   },
 
@@ -22,7 +38,7 @@ var cloud = {
 
   setUserStatus: (user, status) => {
     var updates = {};
-    updates['personal/' + user.uid + '/active/'] = status;
+    updates['personal/' + user.uid + '/status/'] = status;
     firebase.database().ref().update(updates);
 
   },
@@ -127,7 +143,7 @@ var cloud = {
               email: data.email,
               password: data.password,
               admin: data.admin,
-              active: true
+              status: 'active'
             });
             cloud.temp.tempSave(b).then(() => {
               cloud.createAccount(b).then((user) => {
@@ -174,7 +190,7 @@ var cloud = {
     return new Promise((resolve, reject) => {
       firebase.auth().signInWithEmailAndPassword(user.email, user.password).then(() => {
         var user = firebase.auth().currentUser;
-        cloud.setUserStatus(user, true);
+        cloud.setUserStatus(user, 'active');
         cloud.getCloudUser(user).then((result) => {
           cloud.save.saveSeccion(result).then(() => {
             console.log('done');

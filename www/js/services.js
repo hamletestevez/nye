@@ -6,6 +6,12 @@ angular.module('app.services', [])
     return $firebaseArray(ref)
 })
 
+.factory('demoList', function($firebaseArray){
+  var ref = firebase.database().ref('demos/');
+
+  return $firebaseArray(ref)
+})
+
 .service('keyBuild', function () {
     var alphaLower = 'abcdefghijklmnopqrstuvwxyz'.split('');
     var alphaUpper = [];

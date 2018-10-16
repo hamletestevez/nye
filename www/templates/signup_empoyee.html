@@ -24,7 +24,16 @@
           <input type="password" placeholder="Confirm Password" ng-model="signEmployeeData.conPassword">
         </label>
         <div class="spacer_sm"></div>
-        <ion-checkbox ng-model="signEmployeeData.admin">Set as Admin?</ion-checkbox>
+        <!-- <ion-checkbox ng-model="signEmployeeData.admin">Set as Admin?</ion-checkbox> -->
+        <div class="item item-toggle">
+            Set as Admin?
+            <label class="toggle toggle-assertive">
+                <input type="checkbox" ng-model="signEmployeeData.admin">
+                <div class="track">
+                  <div class="handle"></div>
+                </div>
+              </label>
+        </div>
       </ion-list>
       <div class="spacer_sm"></div>
 

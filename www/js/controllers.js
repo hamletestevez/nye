@@ -19,7 +19,7 @@ angular.module('app.controllers', [])
             })
             var user = firebase.auth().currentUser;
 
-            cloud.setUserStatus(user, false)
+            cloud.setUserStatus(user, 'inactive')
 
             cloud.logoutAccount().then(() => {
               $ionicLoading.hide();
@@ -171,7 +171,21 @@ angular.module('app.controllers', [])
     // END of statsCtrl
   })
 
-  .controller('adminCtrl', function ($scope, $stateParams, personalList, $ionicModal, keyBuild, $timeout, $ionicLoading) {
+  .controller('adminCtrl', function ($scope, $stateParams, personalList, demoList, $ionicModal, keyBuild, $timeout, $ionicLoading, $state, $ionicHistory) {
+
+    $ionicLoading.show({
+      template: '<ion-spinner icon="spiral"></ion-spinner>'
+    })
+
+    cloud.save.getSeccion().then((results) => {
+      if (results.admin) {
+        $ionicLoading.hide();
+
+      } else {
+        $ionicLoading.hide();
+        $ionicHistory.goBack();
+      }
+    })
 
 
     $scope.keyBuild = keyBuild;
@@ -210,6 +224,17 @@ angular.module('app.controllers', [])
 
     }
 
+    $scope.viewDemoListCTA = () => {
+      $scope.adminListModal.show();
+      $scope.modalData = {
+        data: demoList,
+        title: 'Demo List',
+        type: 'demos'
+      }
+    }
+
+    // create demo functions
+
     $scope.createNewDemoCTA = () => {
       $scope.adminFormModal.show();
 
@@ -218,6 +243,14 @@ angular.module('app.controllers', [])
         title: 'New Demo',
         type: 'demo'
       }
+
+      cloud.temp.tempGet().then((results) => {
+        if (results) {
+          if (results.item == 'demo') {
+            $scope.newDemo = results;
+          }
+        }
+      })
     }
 
     $scope.createDemoOptionCTA = () => {
@@ -295,6 +328,132 @@ angular.module('app.controllers', [])
 
 
     }
+
+    $scope.createDemoTypeCTA = (type, demoData) => {
+      $ionicLoading.show({
+        template: '<ion-spinner icon="spiral"></ion-spinner>'
+      })
+      console.log(type);
+      var q = [];
+      cloud.temp.tempGet().then((results) => {
+        if (results) {
+          if (results.item == 'demo') {
+
+            if (type === 'number') {
+              results.questions.push({
+                name: demoData.question,
+                type: 'number'
+              });
+            } else if (type === 'text') {
+              results.questions.push({
+                name: demoData.question,
+                type: 'text'
+              });
+            } else if (type === 'yes/no') {
+              results.questions.push({
+                name: demoData.question,
+                type: 'yes/no'
+              });
+            }
+            cloud.temp.tempSave(results).then(() => {
+              $timeout(() => {
+                $scope.newDemo = results;
+                $scope.newDemoOptions = false;
+                demoData.question = null;
+                $ionicLoading.hide();
+              }, 1500)
+            })
+          }
+        } else {
+
+          var a = {
+            item: 'demo',
+            name: demoData.name,
+            id: $scope.keyBuild()
+          };
+
+          if (type === 'number') {
+            q.push({
+              name: demoData.question,
+              type: 'number'
+            })
+            a.questions = q;
+          } else if (type === 'text') {
+            q.push({
+              name: demoData.question,
+              type: 'text'
+            })
+            a.questions = q;
+          } else if (type === 'yes/no') {
+            q.push({
+              name: demoData.question,
+              type: 'yes/no'
+            })
+            a.questions = q;
+          }
+
+          cloud.temp.tempSave(a).then(() => {
+            $timeout(() => {
+              console.log(a);
+              $scope.newDemo = a;
+              $scope.newDemoOptions = false;
+              demoData.question = null;
+              $ionicLoading.hide();
+            }, 1500)
+          })
+        }
+      })
+    }
+
+    $scope.completeDemoFormCTA = (demoData) => {
+
+      $ionicLoading.show({
+        template: '<ion-spinner icon="spiral"></ion-spinner><br>Creating Demo...'
+      })
+      demoData = null;
+
+      cloud.temp.tempGet().then((results) => {
+        var now = new Date();
+        var humanDate = dateFormat(now, "dd mmm dS yyyy, h:MM TT");
+
+        cloud.save.getSeccion().then((user) => {
+          results.created_by = user.name;
+          results.created_email = user.email;
+          results.created_uid = user.uid;
+          results.created_on = humanDate;
+          cloud.insert('demos/' + results.id, results).then((result) => {
+            $timeout(() => {
+              $ionicLoading.hide();
+              sessionStorage.removeItem('NYE_temp');
+              $scope.newDemo = false;
+              $scope.adminFormModal.hide();
+
+            }, 1000)
+
+          }, (error) => {
+            console.log(error);
+            $ionicLoading.show({
+              template: error,
+              duration: 3000
+            })
+          })
+        })
+
+
+
+      })
+    }
+
+    $scope.employeeListStatus = (item) => {
+  
+      if(item.status == 'inactive'){
+        return 'dark'
+      }else{
+        return 'positive'
+      }
+    }
+
+    // END of create demo functions
 
 
     // END of adminCtrl

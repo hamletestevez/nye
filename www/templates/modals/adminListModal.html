@@ -4,17 +4,21 @@
     <button class="button button-icon icon ion-close" ng-click="adminListModal.hide()"></button>
   </ion-header-bar>
   <ion-content>
-    <div class="spacer_sm"></div>
+    <!-- <div class="spacer_sm"></div> -->
     <ion-list class="modalAdminList">
 
-      <a class="item item-icon-right" ng-repeat="item in modalData.data">
+      <a class="item employeeListItem" ng-repeat="item in modalData.data">
 
         {{item.name}}
-        <i ng-if="item.active" class="icon ion-android-radio-button-on balanced"></i>
-        <i ng-if="!item.active" class="icon ion-android-radio-button-off assertive"></i>
+
+        <div ng-if="modalData.type == 'employee'" class="positive" ng-class="employeeListStatus(item)">
+         
+          {{item.status}}
+        </div>
+
       </a>
 
-     
+
     </ion-list>
   </ion-content>
 </ion-modal-view>

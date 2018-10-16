@@ -82,10 +82,10 @@ ion-list.manual-list-fullwidth div.list > .item,
     margin: 5px 15px;
     min-width: 115px; }
 
-.bar .title {
-  display: flex;
+.menuTitle {
+  display: flex !important;
   justify-content: space-around; }
-  .bar .title e {
+  .menuTitle e {
     font-weight: 300; }
 
 .demoOptionForms label {
@@ -93,12 +93,20 @@ ion-list.manual-list-fullwidth div.list > .item,
 .demoOptionForms a {
   background-color: transparent; }
 
-.demoQuestionsCard .questionsCardOptions {
-  margin: 5px 0px;
+.demoQuestionsCard {
+  color: #444444; }
+  .demoQuestionsCard .questionsCardOptions {
+    color: red;
+    margin: 5px 0px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; }
+    .demoQuestionsCard .questionsCardOptions .questionOption {
+      margin: 5px 15px; }
+
+.employeeListItem {
   display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap; }
-  .demoQuestionsCard .questionsCardOptions .questionOption {
-    margin: 5px 15px; }
+  justify-content: space-between;
+  color: #444444 !important; }
 
 /*# sourceMappingURL=style.css.map */

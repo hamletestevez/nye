@@ -130,8 +130,8 @@ ion-list.manual-list-fullwidth div.list>.item,
   }
 }
 
-.bar .title {
-  display: flex;
+.menuTitle {
+  display: flex !important;
   justify-content: space-around;
 
   e {
@@ -151,7 +151,9 @@ ion-list.manual-list-fullwidth div.list>.item,
 }
 
 .demoQuestionsCard{
+  color: #444444;
   .questionsCardOptions{
+    color: red;
     .questionOption{
       margin: 5px 15px;
     }
@@ -160,4 +162,18 @@ ion-list.manual-list-fullwidth div.list>.item,
     justify-content: space-around;
     flex-wrap: wrap;
   }
+}
+
+.employeeListItem{
+  display: flex;
+  justify-content: space-between;
+  color: #444444 !important;
+  
+
+  // .inactive{
+  //   color: #bbb;
+  // }
+  // .active{
+  //   color: blue;
+  // }
 }

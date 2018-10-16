@@ -4,8 +4,7 @@
     <button class="button button-icon icon ion-close" ng-click="adminFormModal.hide()"></button>
   </ion-header-bar>
   <ion-content class="adminFormModal">
-    <!-- <div class="spacer_sm"></div> -->
-
+    
 
     <label class="item card item-input" ng-hide="newDemo">
       <input type="text" placeholder="Demo Name" ng-model="demoData.name">
@@ -13,15 +12,6 @@
     <ion-item class="card" ng-show="newDemo">
       {{newDemo.name}}
     </ion-item>
-
-    <div class="card demoQuestionsCard" ng-repeat="item in newDemo.questions">
-      {{item.name}}
-      <div class="questionsCardOptions">
-        <div ng-repeat="x in item.options" class="questionOption">{{x}}</div>
-      </div>
-
-    </div>
-
 
     <div class="card">
       <form class="list" ng-submit="demoData">
@@ -36,9 +26,9 @@
           <div class="formButtonblock" ng-hide="newDemoOptions">
 
             <a class="button  button-outline button-positive" ng-click="createDemoOptionCTA()">Options</a>
-            <a class="button  button-outline button-positive">Number</a>
-            <a class="button  button-outline button-positive">Text</a>
-            <a class="button  button-outline button-positive">Yes / No</a>
+            <a class="button  button-outline button-positive" ng-click="createDemoTypeCTA('number', demoData)">Number</a>
+            <a class="button  button-outline button-positive" ng-click="createDemoTypeCTA('text', demoData)">Text</a>
+            <a class="button  button-outline button-positive" ng-click="createDemoTypeCTA('yes/no', demoData)">Yes / No</a>
 
           </div>
 
@@ -61,7 +51,16 @@
         </ion-list>
       </form>
     </div>
-    <a class="button button-block button-positive" ng-show="newDemo">Complete</a>
 
+    <div class="card demoQuestionsCard" ng-repeat="item in newDemo.questions" >
+      {{item.name}}
+      <div class="questionsCardOptions" >
+        <div ng-show="item.type == 'options'" ng-repeat="x in item.options" class="questionOption">{{x}}</div>
+        <e ng-hide="item.options">{{item.type}}</e>
+      </div>
+    </div>
+
+    <a class="button button-block button-positive" ng-show="newDemo" ng-click="completeDemoFormCTA(demoData)">Complete Demo</a>
+    <div class="spacer_lg"></div>
   </ion-content>
 </ion-modal-view>
