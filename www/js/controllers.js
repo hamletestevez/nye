@@ -3,7 +3,91 @@ angular.module('app.controllers', [])
 
   .controller('menuCtrl', function ($scope, $stateParams, $state, $timeout, $ionicPopup, $ionicLoading) {
 
+    var windowBlurTime = 0,
+      windowBlurCounter;
+    $scope.inactiveLogIn = {};
+    var inactiveTime = 15, logoutTime = 30;
+    $(window).blur(function () {
+      //your code here
+      console.log('blur');
+      windowBlurCounter = setInterval(() => {
+        windowBlurTime++;
+        console.log(windowBlurTime);
+        if (windowBlurTime >= inactiveTime) {
+          cloud.save.getSeccion().then((user) => {
+            console.log(user);
+            cloud.setUserStatus(user, 'inactive')
 
+            if (windowBlurTime >= logoutTime) {
+              $scope.inactiveLogIn.name = user.name;
+              $scope.inactiveLogIn.email = user.email;
+              $scope.promptForInactiveLogIn(user);
+              clearInterval(windowBlurCounter);
+            }
+          })
+        }
+      }, 1000)
+    });
+    $(window).focus(function () {
+      //your code
+      console.log('focus');
+      if (windowBlurTime < logoutTime) {
+        cloud.save.getSeccion().then((user) => {
+        
+          console.log(user);
+          cloud.setUserStatus(user, 'active');
+          clearInterval(windowBlurCounter);
+         
+        })
+      }
+
+
+      console.log('time', windowBlurTime);
+      windowBlurTime = 0
+    });
+
+
+
+    $scope.promptForInactiveLogIn = (user) => {
+      $ionicPopup.show({
+        title: "Log In",
+        subTitle: "You must log back in!<br> <b>" + user.name + "<br>" + user.email + "</b>",
+        scope: $scope,
+        template: "<ion-item class='item-input'> <input type='password' placeholder='Password' ng-model='inactiveLogIn.password'></ion-item>",
+        buttons: [{
+          text: "Cancel"
+        }, {
+          text: "OK",
+          type: "button-assertive",
+          onTap: function (e) {
+            if(!$scope.inactiveLogIn.password){
+              e.preventDefault();
+              $ionicLoading.show({
+                template: "Password must be provided...",
+                duration: 3000
+              })
+              
+            }
+            var log = {
+              email: user.email,
+              password:$scope.inactiveLogIn.password
+            }
+            cloud.loginAccount(log).then(()=>{
+              console.log('log in');
+            }, (error)=>{
+            console.log(error);
+            $ionicLoading.show({
+              template: error.message,
+              duration: 3000
+            })
+            $timeout(()=>{
+              $scope.promptForInactiveLogIn(user);
+            },3000)
+            })
+          }
+        }]
+      })
+    }
     $scope.logoutCTA = () => {
       $ionicPopup.show({
         title: "Log Out",
@@ -161,7 +245,11 @@ angular.module('app.controllers', [])
     // END of dashboardCtrl
   })
 
-  .controller('demosCtrl', function ($scope, $stateParams) {
+  .controller('demosCtrl', function ($scope, $stateParams, demoList) {
+
+    $scope.demoList = demoList;
+
+
 
     // END of demosCtrl
   })
@@ -445,10 +533,10 @@ angular.module('app.controllers', [])
     }
 
     $scope.employeeListStatus = (item) => {
-  
-      if(item.status == 'inactive'){
+
+      if (item.status == 'inactive') {
         return 'dark'
-      }else{
+      } else {
         return 'positive'
       }
     }

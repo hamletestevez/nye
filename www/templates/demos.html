@@ -1,3 +1,22 @@
 <ion-view title="Demos" id="page2">
-  <ion-content padding="true" class="has-header"></ion-content>
+  <ion-content padding="true" class="has-header">
+    <div class="spacer_sm"></div>
+    <a class="item">
+      Select Demo 
+    </a>
+<div class="spacer_sm"></div>
+    
+
+    <div class="card">
+        <div class="item item-divider">
+            Demo list
+        </div>
+        <ion-item ng-repeat="item in demoList">
+            {{item.name}}
+            <br>Created by: {{item.created_by}}
+          </ion-item>
+      </div>
+
+
+  </ion-content>
 </ion-view>

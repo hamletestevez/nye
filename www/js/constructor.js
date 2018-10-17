@@ -1,12 +1,4 @@
 
-$(window).blur(function(){
-  //your code here
-  console.log('blur');
-});
-$(window).focus(function(){
-  //your code
-  console.log('focus');
-});
 
 var cloud = {
 
@@ -40,7 +32,6 @@ var cloud = {
     var updates = {};
     updates['personal/' + user.uid + '/status/'] = status;
     firebase.database().ref().update(updates);
-
   },
 
   getCloudUser: (user) => {
